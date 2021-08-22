@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Employee>
+@inject IAuthorizationService authorizationServices; 
+
+@{
+    ViewBag.Title = "Index Page";
+}
+<span class="text-danger"> @ViewBag.Msg </span>
+<br />
+
+<a class="btn btn-primary" asp-controller="home" asp-action="create"> Add New Employee </a>
+<hr /> 
+@foreach (var employee in Model)
+{
+    var ImageFolder = "/images/" + (employee.ImagePath ?? "client.png");
+    <div class="card col-6" style="width: 15rem; float:left; margin:10px; padding:10px; ">
+        <img src="@ImageFolder" class="card-img-top" alt="..." asp-append-version="true">
+        <div class="card-body">
+            <h5 class="card-title">@employee.Name</h5>
+            <p class="card-text">@employee.Email</p>
+            <p class="card-text">@employee.Department</p> 
+            @if ((await authorizationServices.AuthorizeAsync(User, "UpdateRole")).Succeeded || (await authorizationServices.AuthorizeAsync(User, "MakeChanges")).Succeeded)
+            {
+                <a class="btn btn-outline-info m-1" asp-controller="home" asp-action="edit" asp-route-id="@employee.Id"> Edit</a>
+            }
+
+            <a class="btn btn-outline-primary m-1" asp-controller="home" asp-action="details" asp-route-id="@employee.Id"> Details</a>
+            
+            @if ((await authorizationServices.AuthorizeAsync(User, "DeleteRole")).Succeeded)
+            {
+                <a class="btn btn-outline-danger m-1" asp-controller="home" asp-action="delete" asp-route-id="@employee.Id"> Delete</a>
+            }
+        </div>
+
+    </div>
+}
+
+<br />
+@section counts{
+    <div> the total Employee count is : @Model.Count()</div>
+}
+
+@section Scripts{
+
+}

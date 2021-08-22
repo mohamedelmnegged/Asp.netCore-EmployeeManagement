@@ -1,0 +1,47 @@
+﻿@model IQueryable<IdentityRole> 
+@inject IAuthorizationService authorizationServices; 
+@{
+    ViewBag.Title = "Show Roles";
+}
+
+@if (Model.Any())
+{
+    foreach (var role in Model)
+    {
+        <div class="card">
+            <div class="card-header">
+               Role Id: @role.Id
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@role.Name</h5>
+             </div>
+            <div class="card-footer"> 
+                @if ((await authorizationServices.AuthorizeAsync(User, "UpdateRole")).Succeeded)
+                {
+                    <a class="btn btn-outline-info" asp-action="editRole" asp-controller="adminstration" asp-route-id="@role.Id"> Edit </a>
+                } 
+                @if ((await authorizationServices.AuthorizeAsync(User, "DeleteRole")).Succeeded)
+                {
+                    <a class="btn btn-outline-danger" asp-action="delete" asp-controller="adminstration" asp-route-id="@role.Id"> Delete</a>
+                }
+            </div>
+            </div>
+        <br />
+    }
+
+    <a class="btn btn-outline-info" asp-action="CreateRole" asp-controller="adminstration"> Add Role </a>
+
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No Roles Found
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">there is no role right now </h5>
+            <a class="btn btn-outline-info" asp-action="CreateRole" asp-controller="adminstration"> Create New Role </a>
+        </div>
+    </div>
+
+}

@@ -1,0 +1,32 @@
+﻿@model DeleteUserViewModel
+@{
+    ViewBag.Title = "Delete User";
+}
+
+
+<h1> Delete User</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-action="DeleteUser" asp-controller="adminstration" method="post">
+            <div class="card">
+                <div class="card-header">
+                    Role Id: @Model.Id
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">UserName : @Model.Name</h5>
+                </div>
+                <div class="card-footer">
+                    <p class="card-body"> Email: @Model.Email </p>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Delete Role" class="col-sm-10 btn btn-danger" />
+            </div>
+        </form>
+
+
+    </div>
+</div>

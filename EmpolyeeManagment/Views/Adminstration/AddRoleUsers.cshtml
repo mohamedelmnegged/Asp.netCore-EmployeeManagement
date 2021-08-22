@@ -1,0 +1,29 @@
+﻿@model AddRoleUserViewModel
+@{
+    ViewBag.Title = "Add Usres to role";
+}
+<h1> Add Roles to Users  </h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-action="AddRoleUsers" asp-controller="adminstration" method="post">
+            <input type="hidden" asp-for="RoleId" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div>
+                <label asp-for="Users" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <select asp-for="UserId" class="form-control" asp-items="@(new SelectList(Model.Users, "Id", "UserName"))"> </select>
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Add" class="col-sm-10 btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<a class="btn btn-outline-primary" asp-controller="adminstration" asp-action="EditRole" asp-route-id="@Model.RoleId"> Return to Role Edit</a>

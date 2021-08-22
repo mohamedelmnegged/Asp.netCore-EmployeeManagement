@@ -1,0 +1,33 @@
+﻿@model RoleViewModel
+@{
+    ViewBag.Title = "Delete Role";
+}
+
+
+<h1> Delete Role</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-action="delete" asp-controller="adminstration" method="post">
+            <input type="hidden" asp-for="Id" /> 
+            <input type="hidden" asp-for="Concurrency" /> 
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div>
+                <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="Name" readonly class="form-control" placeholder="Name">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+            </div>
+           
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Delete Role" class="col-sm-10 btn btn-danger" />
+            </div>
+        </form>
+
+
+    </div>
+</div>

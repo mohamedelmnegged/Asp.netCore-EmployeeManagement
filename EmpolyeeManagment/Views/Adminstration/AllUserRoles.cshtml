@@ -1,0 +1,38 @@
+﻿@model UserRoleViewModel 
+@{  
+    ViewBag.Title = "User Role"; 
+}
+
+<form method="post" asp-action="AllUserRoles" asp-controller="adminstration">
+    <div class="card">
+        <div class="card-header">
+            <h2>Manage @(ViewBag.Name ?? "User") Roles </h2>
+        </div>
+        <input type="hidden" asp-for="UserId" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if(Model.UserId != null){
+        <div class="card-body">
+            @for (int i = 0; i < Model.UserRoles.Count; i++)
+            {
+                <div class="form-check m-1">
+                    <input type="hidden" asp-for="@Model.UserId" />
+                    <input type="hidden" asp-for="@Model.UserRoles[i].RoleName" />
+                    <input asp-for="@Model.UserRoles[i].IsSelected" class="form-check-input" />
+                    <label class="form-check-label" asp-for="@Model.UserRoles[i].IsSelected">
+                        @Model.UserRoles[i].RoleName
+                    </label>
+                </div>
+            }
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+        <div class="card-footer">
+            <input type="submit" value="Update" class="btn btn-primary"
+                   style="width:auto" />
+            <a asp-action="AllUsers" asp-controller="adminstration"
+               class="btn btn-primary" style="width:auto">Cancel</a>
+        </div>
+        } else {  
+            <div class="alert alert-danger"> you enter invalid user id </div>
+        }
+    </div>
+</form>

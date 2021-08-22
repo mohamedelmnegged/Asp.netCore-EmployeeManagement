@@ -1,0 +1,62 @@
+﻿@model EditRoleViewModel
+@inject IAuthorizationService auhtorizationSerives; 
+@{
+    ViewBag.Title = "Edit Role";
+}
+
+
+<h1> Edit Role</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-action="EditRole" asp-controller="adminstration" method="post">
+
+            <input type="hidden" asp-for="Concurrency" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="col-sm-15">
+                <input asp-for="Id" readonly class="form-control" />
+            </div>
+            <div>
+                <label asp-for="RoleName" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-15">
+                    <input asp-for="RoleName" class="form-control" placeholder="Name">
+                    <span asp-validation-for="RoleName" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Edit Role" class="col-sm-10 btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<hr />
+<h1> Users in this role </h1>
+@if (Model.Users.Any())
+{
+    int n = 1;
+    foreach (var user in Model.Users)
+    {
+        <div>
+            <label> User Number @n  : @user </label>
+        </div>
+        n++;
+    }
+}
+else
+{
+    <div>
+        No Users right Now in this role <br />
+    </div>
+} 
+@if ((await auhtorizationSerives.AuthorizeAsync(User, "CreateRole")).Succeeded)
+{
+    <a asp-controller="adminstration" asp-action="AddRoleUsers" asp-route-roleId="@Model.Id" class="btn btn-outline-primary"> Add Users to Role </a>
+}
+@if ((await auhtorizationSerives.AuthorizeAsync(User, "DeleteRole")).Succeeded)
+{
+    <a asp-controller="adminstration" asp-action="RemoveroleUsers" asp-route-roleId="@Model.Id" class="btn btn-outline-danger"> Remove Users from Role </a>
+}

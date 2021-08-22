@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ApplicationUser> 
+@inject IAuthorizationService authorizationServices;  
+@{
+    ViewBag.Title = "All Users";
+}
+
+
+@if (Model.Any())
+{
+    foreach (var user in Model)
+    {
+        <div class="card">
+            <div class="card-header">
+                Role Id: @user.Id
+            </div>
+            <div class="card-body"> 
+                <h5 class="card-title">@user.UserName</h5>  
+                @if ((await authorizationServices.AuthorizeAsync(User, "MakeChanges")).Succeeded)
+                {
+                    <a class="btn btn-outline-primary" asp-action="AllUserRoles" asp-controller="adminstration" asp-route-id="@user.Id"> Manage User Roles </a>
+                    <a class="btn btn-outline-primary" asp-action="AllUserClaims" asp-controller="adminstration" asp-route-id="@user.Id"> Manage User Claims </a>
+                }
+            </div>
+            <div class="card-footer">
+                @if ((await authorizationServices.AuthorizeAsync(User, "UpdateRole")).Succeeded)
+                {
+                    @if (User.Identity.Name != user.UserName)
+                    {
+                        <a class="btn btn-outline-info" asp-action="editUser" asp-controller="adminstration" asp-route-id="@user.Id"> Edit </a>
+                    }
+                    else
+                    {
+                        <p> this is you, you can not manage your account </p>
+                    }
+
+                }
+                @if ((await authorizationServices.AuthorizeAsync(User, "DeleteRole")).Succeeded)
+                {
+                    @if (User.Identity.Name != user.UserName)
+                    {
+                        <a class="btn btn-outline-danger" asp-action="deleteUser" asp-controller="adminstration" asp-route-id="@user.Id"> Delete</a>
+                        }
+                }
+            </div>
+        </div>
+        <br />
+    }
+    <a class="btn btn-outline-info" asp-action="CreateUser" asp-controller="adminstration"> Add User </a>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No Roles Found
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">there is no role right now </h5>
+            <a class="btn btn-outline-info" asp-action="CreateUser" asp-controller="adminstration"> Create New User </a>
+        </div>
+    </div>
+
+}

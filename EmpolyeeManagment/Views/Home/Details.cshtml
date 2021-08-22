@@ -1,0 +1,26 @@
+﻿@model Employee
+@{
+    ViewBag.Title = "Details Page";
+    var ImageFolder = "/images/" + (Model.ImagePath ?? "client.png");
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+            <div class="well profile">
+                <div class="col-sm-12">
+                    <div class="col-xs-12 col-sm-8">
+                        <h2>@Model.Name</h2>
+                        <p><strong>Email: </strong> @Model.Email </p>
+                        <p><strong>Department: </strong> @Model.Department</p>
+                    </div>
+                 <img src="@ImageFolder" style="width:500px; height:300px"/> 
+                </div>
+            </div>
+        </div> 
+        <div>
+            <a asp-action="Index" asp-controller="home">Back to List</a>
+        </div>
+    </div>
+</div>

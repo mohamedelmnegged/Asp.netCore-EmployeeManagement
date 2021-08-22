@@ -1,0 +1,53 @@
+﻿@model EmployeeEditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Employee</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data" asp-controller="home" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="oldEmployee.Id"  class="control-label"></label>
+                <input asp-for="oldEmployee.Id" readonly class="form-control" />
+                <span asp-validation-for="oldEmployee.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="oldEmployee.Name" class="control-label"></label>
+                <input asp-for="oldEmployee.Name" class="form-control" />
+                <span asp-validation-for="oldEmployee.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="oldEmployee.Email" class="control-label"></label>
+                <input asp-for="oldEmployee.Email" class="form-control" />
+                <span asp-validation-for="oldEmployee.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="oldEmployee.Department" class="control-label"></label>
+                <select asp-for="oldEmployee.Department" class="form-control" asp-items="@Html.GetEnumSelectList<Dep>().ToList()"> </select>
+                <span asp-validation-for="oldEmployee.Department" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="oldEmployee.ImagePath" class="control-label"></label> 
+                <input type="hidden" asp-for="oldEmployee.ImagePath" /> 
+                <img  src ="/images/@Model.oldEmployee.ImagePath" class="form-control"/>
+                <input asp-for="NewImage" class="form-control" />
+                <span asp-validation-for="oldEmployee.ImagePath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
